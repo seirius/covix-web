@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "covix-web"
+    }
+  },
+  "defaultProject": "covix-web",
+  "cli": {
+    "analytics": "59057aef-197e-473c-8036-92bd52b5f9f2"
+  }
 }
