@@ -1,0 +1,13 @@
+.covix {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .covix-navbar {
+        flex: auto;
+    }
+    .covix-content {
+        height: 100%;
+        flex: auto;
+        position: relative;
+    }
+}

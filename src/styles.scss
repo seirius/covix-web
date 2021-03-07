@@ -6,3 +6,7 @@ html, body {
     margin: 0;
     padding: 0;
 }
+/* Importing Bootstrap SCSS file. */
+@import "~bootswatch/dist/sketchy/variables";
+@import '~bootstrap/scss/bootstrap';
+@import "~bootswatch/dist/sketchy/bootswatch";
