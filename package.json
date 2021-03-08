@@ -7,7 +7,8 @@
     "build": "ng build --output-path=/home/andriy/dev/covix/covix-web --watch",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "ng-version": "ng --version"
   },
   "private": true,
   "dependencies": {

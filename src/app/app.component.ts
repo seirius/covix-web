@@ -10,6 +10,7 @@ export class AppComponent {
 
     public links = [
         { title: "New Room", fragment: "new-room" },
+        { title: "Join Room", fragment: "join-room" }
     ];
 
     constructor(
