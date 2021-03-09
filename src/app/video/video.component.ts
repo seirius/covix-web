@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import videojs from "video.js";
+import { DataService } from '../data.service';
+import { SocketService } from '../socketio/socket.service';
 
 @Component({
     selector: 'app-video',
     templateUrl: './video.component.html',
     styleUrls: ['./video.component.scss']
 })
-export class VideoComponent implements OnInit {
+export class VideoComponent implements OnInit, OnDestroy {
  
     public videoOptions: videojs.PlayerOptions = {
         autoplay: false,
@@ -18,7 +20,9 @@ export class VideoComponent implements OnInit {
     public startVideo = false;
 
     constructor(
-        private router: ActivatedRoute
+        private router: ActivatedRoute,
+        private socketService: SocketService,
+        private dataService: DataService
     ) {
         this.initVideo();
     }
@@ -31,11 +35,22 @@ export class VideoComponent implements OnInit {
                     type: "video/mp4"
                 });
                 this.startVideo = true;
+                this.socketService.socket.emit("join-room", {
+                    roomId: this.dataService.roomId,
+                    username: this.dataService.username
+                });
             }
         });
     }
 
     ngOnInit(): void {
+    }
+
+    ngOnDestroy(): void {
+        this.socketService.socket.emit("leave-room", {
+            roomId: this.dataService.roomId,
+            username: this.dataService.username
+        });
     }
 
 }

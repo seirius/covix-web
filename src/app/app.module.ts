@@ -10,6 +10,8 @@ import { VideoJsComponent } from './video-js/video-js.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NewRoomComponent } from './new-room/new-room.component';
 import { JoinRoomComponent } from './join-room/join-room.component';
+import { SocketModule } from './socketio/socket.module';
+import { DataService } from './data.service';
 
 @NgModule({
   declarations: [
@@ -25,9 +27,10 @@ import { JoinRoomComponent } from './join-room/join-room.component';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SocketModule
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

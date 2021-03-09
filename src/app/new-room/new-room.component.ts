@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DataService } from '../data.service';
 
 const INPUTS = {
 	USERNAME: "username",
@@ -24,7 +25,8 @@ export class NewRoomComponent implements OnInit {
 		private formBuilder: FormBuilder,
 		private cd: ChangeDetectorRef,
 		private httpClient: HttpClient,
-		private router: Router
+		private router: Router,
+		private dataService: DataService
 	) {
 	}
 
@@ -33,11 +35,14 @@ export class NewRoomComponent implements OnInit {
 
 	public async onSubmit(): Promise<void> {
 		const formData = new FormData();
+		const username = this.formGroup.get(INPUTS.USERNAME).value;
 		formData.append(INPUTS.VIDEO_FILE, this.formGroup.get(INPUTS.VIDEO_FILE).value);
-		formData.append(INPUTS.USERNAME, this.formGroup.get(INPUTS.USERNAME).value);
+		formData.append(INPUTS.USERNAME, username);
 		console.log(this.formGroup);
 		const response = await this.httpClient.post<any>("/api/new-room", formData).toPromise();
 		if (response.id) {
+			this.dataService.roomId = response.id;
+			this.dataService.username = username;
 			this.router.navigate(["/video"], { queryParams: {
 				id: response.id
 			}});
