@@ -23,7 +23,7 @@ export class VideoJsComponent implements OnInit, OnDestroy {
     constructor() { }
 
     private onPlayerReady() {
-        console.log('onPlayerReady', this);
+        // console.log('onPlayerReady', this);
     }
 
     ngOnInit() {

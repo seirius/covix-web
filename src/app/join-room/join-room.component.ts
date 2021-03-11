@@ -40,14 +40,11 @@ export class JoinRoomComponent implements OnInit {
 
     public async onSubmit(): Promise<void> {
         const username = this.formGroup.get(INPUTS.USERNAME).value;
-        const id = this.formGroup.get(INPUTS.ID).value;
-        const response = await this.httpClient
-            .post<any>("/api/join-room", { id, username })
-            .toPromise();
-        if (response.id) {
+        const roomId = this.formGroup.get(INPUTS.ID).value;
+        if (roomId) {
             this.dataService.username = username;
-			this.dataService.roomId = response.id;
-            await this.router.navigate(["/video"], { queryParams: { id: response.id } });
+			this.dataService.roomId = roomId;
+            await this.router.navigate(["/video"], { queryParams: { id: roomId } });
         }
     }
 

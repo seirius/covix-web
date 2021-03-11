@@ -37,14 +37,15 @@ export class NewRoomComponent implements OnInit {
 		const formData = new FormData();
 		const username = this.formGroup.get(INPUTS.USERNAME).value;
 		formData.append(INPUTS.VIDEO_FILE, this.formGroup.get(INPUTS.VIDEO_FILE).value);
-		formData.append(INPUTS.USERNAME, username);
-		console.log(this.formGroup);
-		const response = await this.httpClient.post<any>("/api/new-room", formData).toPromise();
-		if (response.id) {
-			this.dataService.roomId = response.id;
+		const { roomId } = await this.httpClient.post<{
+			roomId: string;
+			usernames: string[]
+		}>("/api/new-room", formData).toPromise();
+		if (roomId) {
+			this.dataService.roomId = roomId;
 			this.dataService.username = username;
 			this.router.navigate(["/video"], { queryParams: {
-				id: response.id
+				id: roomId
 			}});
 		}
 	}

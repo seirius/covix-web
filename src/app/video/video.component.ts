@@ -30,13 +30,16 @@ export class VideoComponent implements OnInit, OnDestroy {
     public initVideo(): void {
         this.router.queryParams.subscribe(({ id }) => {
             if (id) {
+                this.socketService.socket.on("joined-room", (username: string) => {
+                    console.log(username);
+                });
                 this.videoOptions.sources.push({
                     src: `/api/video?id=${id}`,
                     type: "video/mp4"
                 });
                 this.startVideo = true;
                 this.socketService.socket.emit("join-room", {
-                    roomId: this.dataService.roomId,
+                    roomId: id,
                     username: this.dataService.username
                 });
             }
@@ -48,8 +51,7 @@ export class VideoComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.socketService.socket.emit("leave-room", {
-            roomId: this.dataService.roomId,
-            username: this.dataService.username
+            roomId: this.dataService.roomId
         });
     }
 
