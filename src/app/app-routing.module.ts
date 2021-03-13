@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { JoinRoomComponent } from './join-room/join-room.component';
 import { NewRoomComponent } from './new-room/new-room.component';
+import { VideoJoinGuard } from './video/video-join-guard.service';
 import { VideoComponent } from './video/video.component';
 
 
@@ -21,7 +22,8 @@ const routes: Routes = [
     },
     {
         path: "video",
-        component: VideoComponent
+        component: VideoComponent,
+        canActivate: [VideoJoinGuard]
     }
 ];
 

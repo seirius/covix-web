@@ -16,6 +16,8 @@ const INPUTS = {
 })
 export class NewRoomComponent implements OnInit {
 
+	public submitting = false;
+
 	public formGroup: FormGroup = this.formBuilder.group({
 		[INPUTS.USERNAME]: [null, Validators.required],
 		[INPUTS.VIDEO_FILE]: [null, Validators.required]
@@ -34,6 +36,7 @@ export class NewRoomComponent implements OnInit {
 	}
 
 	public async onSubmit(): Promise<void> {
+		this.submitting = true;
 		const formData = new FormData();
 		const username = this.formGroup.get(INPUTS.USERNAME).value;
 		formData.append(INPUTS.VIDEO_FILE, this.formGroup.get(INPUTS.VIDEO_FILE).value);
@@ -48,6 +51,7 @@ export class NewRoomComponent implements OnInit {
 				id: roomId
 			}});
 		}
+		this.submitting = false;
 	}
 
 	public onFileChange(event) {

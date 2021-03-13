@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --output-path=/home/andriy/dev/covix/covix-web --watch",
+    "build:prod": "ng build --output-path=/home/andriy/dev/covix/covix-web --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

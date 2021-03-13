@@ -12,6 +12,9 @@ import { NewRoomComponent } from './new-room/new-room.component';
 import { JoinRoomComponent } from './join-room/join-room.component';
 import { SocketModule } from './socketio/socket.module';
 import { DataService } from './data.service';
+import { UserListComponent } from './user-list/user-list.component';
+import { VideoJoinGuard } from './video/video-join-guard.service';
+import { AddTrackComponent } from './add-track/add-track.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,9 @@ import { DataService } from './data.service';
     VideoComponent,
     VideoJsComponent,
     NewRoomComponent,
-    JoinRoomComponent
+    JoinRoomComponent,
+    UserListComponent,
+    AddTrackComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +35,7 @@ import { DataService } from './data.service';
     HttpClientModule,
     SocketModule
   ],
-  providers: [DataService],
+  providers: [DataService, VideoJoinGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

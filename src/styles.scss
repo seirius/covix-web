@@ -6,6 +6,11 @@ html, body {
     margin: 0;
     padding: 0;
 }
+
+.fill-height {
+    height: 100%;
+}
+
 /* Importing Bootstrap SCSS file. */
 @import "~bootswatch/dist/sketchy/variables";
 @import '~bootstrap/scss/bootstrap';

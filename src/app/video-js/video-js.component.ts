@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import videojs from "video.js";
 
 @Component({
@@ -9,16 +9,14 @@ import videojs from "video.js";
 export class VideoJsComponent implements OnInit, OnDestroy {
 
     @ViewChild('target', { static: true }) target: ElementRef;
-    @Input() options: {
-        fluid: boolean,
-        aspectRatio: string,
-        autoplay: boolean,
-        sources: {
-            src: string,
-            type: string,
-        }[],
-    };
+    @Input() options: videojs.PlayerOptions;
     player: videojs.Player;
+
+    @Output()
+    public onPlay = new EventEmitter<{ currentTime: number }>();
+
+    @Output()
+    public onPause = new EventEmitter<{ currentTime: number }>();
 
     constructor() { }
 
@@ -28,6 +26,17 @@ export class VideoJsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.player = videojs(this.target.nativeElement, this.options, () => this.onPlayerReady());
+        this.player.on("play", () => this.onPlay.emit({ currentTime: this.player.currentTime() }));
+        this.player.on("pause", () => this.onPause.emit({ currentTime: this.player.currentTime() }));
+    }
+
+    public play(currentTime: number): void {
+        this.player.currentTime(currentTime);
+        this.player.play();
+    }
+
+    public pause(currentTime: number): void {
+        this.player.pause();
     }
 
     ngOnDestroy() {

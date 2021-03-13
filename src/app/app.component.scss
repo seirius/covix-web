@@ -4,10 +4,13 @@
     height: 100%;
     .covix-navbar {
         flex: auto;
+        padding: 10px;
     }
     .covix-content {
         height: 100%;
         flex: auto;
         position: relative;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 }
