@@ -1,11 +1,12 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { EVENTS } from "src/app/socketio/socketio.data";
 import videojs from "video.js";
 import { DataService } from '../data.service';
 import { SocketService } from '../socketio/socket.service';
-import { EVENTS } from "src/app/socketio/socketio.data";
 import { VideoJsComponent } from '../video-js/video-js.component';
+import { Room } from './room.data';
+import { RoomService } from './room.service';
 
 @Component({
     selector: 'app-video',
@@ -22,6 +23,7 @@ export class VideoComponent implements OnInit, OnDestroy {
         controls: true,
         sources: [],
         preload: "auto",
+        liveui: true,
         bigPlayButton: false
     };
 
@@ -30,6 +32,7 @@ export class VideoComponent implements OnInit, OnDestroy {
     public users: string[] = [];
 
     public id: string;
+    public room: Room;
 
     private preventPlayEmit = false;
     private preventPauseEmit = false;
@@ -37,8 +40,8 @@ export class VideoComponent implements OnInit, OnDestroy {
     constructor(
         private router: ActivatedRoute,
         private socketService: SocketService,
-        private httpClient: HttpClient,
-        private dataService: DataService
+        private dataService: DataService,
+        private roomService: RoomService
     ) {
         this.initVideo();
     }
@@ -53,6 +56,16 @@ export class VideoComponent implements OnInit, OnDestroy {
         const index = this.users.indexOf(username);
         if (index > -1) {
             this.users.splice(index, 1);
+        }
+    }
+
+    public updateRoomCurrentTime(): void {
+        const currentTime = this.videoJs?.player?.currentTime();
+        if (this.id && currentTime > 0) {
+            this.socketService.socket.emit(EVENTS.REQUEST_CURRENT_TIME, {
+                roomId: this.id,
+                currentTime
+            });
         }
     }
 
@@ -72,19 +85,21 @@ export class VideoComponent implements OnInit, OnDestroy {
             this.videoJs.pause(currentTime);
         });
         this.socketService.socket.on(EVENTS.NEW_TRACK, ({ language }: { language: string }) => this.addTrack(language));
+        this.socketService.socket.on(EVENTS.REQUEST_CURRENT_TIME, () => this.updateRoomCurrentTime());
     }
 
     private removeSocketListeners(): void {
-        this.socketService.socket.removeListener(EVENTS.JOINED_ROOM);
-        this.socketService.socket.removeListener(EVENTS.LEAVE_ROOM);
-        this.socketService.socket.removeListener(EVENTS.PLAY);
-        this.socketService.socket.removeListener(EVENTS.PAUSE);
-        this.socketService.socket.removeListener(EVENTS.NEW_TRACK);
+        Object.values(EVENTS)
+            .forEach(event => this.socketService.socket.removeListener(event));
     }
 
-    public async loadTracks(): Promise<void> {
+    public onPlayerReady(): void {
+        this.videoJs.player.currentTime(this.room.currentTime);
+        this.emitPause(this.room.currentTime);
+    }
+
+    public loadTracks(tracks: string[]): void {
         this.videoOptions.tracks = [];
-        const tracks = await this.httpClient.get<string[]>(`/api/room/${this.id}/tracks`).toPromise();
         if (tracks?.length) {
             tracks.forEach(track => this.videoOptions.tracks.push({
                 src: `/api/room/${this.id}/track/${track}`,
@@ -111,16 +126,16 @@ export class VideoComponent implements OnInit, OnDestroy {
                     src: `/api/video?id=${id}`,
                     type: "video/mp4"
                 });
-                await this.loadTracks();
+                this.room = await this.roomService.getRoom(this.id);
+                this.loadTracks(this.room.tracks);
+                if (this.room.users.length) {
+                    this.room.users.forEach(user => this.addUser(user));
+                }
                 this.startVideo = true;
                 this.socketService.socket.emit(EVENTS.JOIN_ROOM, {
                     roomId: id,
                     username: this.dataService.username
                 });
-                const users = await this.httpClient.get<string[]>(`/api/room/${id}/users`).toPromise();
-                if (users?.length) {
-                    users.forEach(user => this.addUser(user));
-                }
             }
         });
     }
@@ -146,15 +161,19 @@ export class VideoComponent implements OnInit, OnDestroy {
         });
     }
 
+    public emitPause(currentTime: number): void {
+        this.socketService.socket.emit(EVENTS.PAUSE, {
+            roomId: this.id,
+            currentTime
+        });
+    }
+
     public onPause({ currentTime }: { currentTime: number }): void {
         if (this.preventPauseEmit) {
             this.preventPauseEmit = false;
             return;
         }
-        this.socketService.socket.emit(EVENTS.PAUSE, {
-            roomId: this.id,
-            currentTime
-        });
+        this.emitPause(currentTime);
     }
 
 }

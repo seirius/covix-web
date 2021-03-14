@@ -4,5 +4,6 @@ export const EVENTS = {
     JOINED_ROOM: "joined-room",
     PLAY: "play",
     PAUSE: "pause",
-    NEW_TRACK: "new-track"
+    NEW_TRACK: "new-track",
+    REQUEST_CURRENT_TIME: "request-current-time"
 };

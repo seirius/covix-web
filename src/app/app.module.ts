@@ -15,6 +15,7 @@ import { DataService } from './data.service';
 import { UserListComponent } from './user-list/user-list.component';
 import { VideoJoinGuard } from './video/video-join-guard.service';
 import { AddTrackComponent } from './add-track/add-track.component';
+import { RoomService } from './video/room.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { AddTrackComponent } from './add-track/add-track.component';
     HttpClientModule,
     SocketModule
   ],
-  providers: [DataService, VideoJoinGuard],
+  providers: [DataService, VideoJoinGuard, RoomService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -13,6 +13,9 @@ export class VideoJsComponent implements OnInit, OnDestroy {
     player: videojs.Player;
 
     @Output()
+    public playerReady = new EventEmitter<void>();
+
+    @Output()
     public onPlay = new EventEmitter<{ currentTime: number }>();
 
     @Output()
@@ -21,13 +24,13 @@ export class VideoJsComponent implements OnInit, OnDestroy {
     constructor() { }
 
     private onPlayerReady() {
-        // console.log('onPlayerReady', this);
+        this.playerReady.emit();
+        this.player.on("play", () => this.onPlay.emit({ currentTime: this.player.currentTime() }));
+        this.player.on("pause", () => this.onPause.emit({ currentTime: this.player.currentTime() }));
     }
 
     ngOnInit() {
         this.player = videojs(this.target.nativeElement, this.options, () => this.onPlayerReady());
-        this.player.on("play", () => this.onPlay.emit({ currentTime: this.player.currentTime() }));
-        this.player.on("pause", () => this.onPause.emit({ currentTime: this.player.currentTime() }));
     }
 
     public play(currentTime: number): void {
