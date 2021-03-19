@@ -122,11 +122,11 @@ export class VideoComponent implements OnInit, OnDestroy {
         this.router.queryParams.subscribe(async ({ id }) => {
             if (id) {
                 this.id = id;
+                this.room = await this.roomService.getRoom(this.id);
                 this.videoOptions.sources.push({
-                    src: `/api/video?id=${id}`,
+                    src: `/api/video?filename=${this.room.filename}`,
                     type: "video/mp4"
                 });
-                this.room = await this.roomService.getRoom(this.id);
                 this.loadTracks(this.room.tracks);
                 if (this.room.users.length) {
                     this.room.users.forEach(user => this.addUser(user));

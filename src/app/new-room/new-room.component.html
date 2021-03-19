@@ -1,6 +1,7 @@
 <div class="container">
     <form [formGroup]="formGroup" novalidate (ngSubmit)="onSubmit()">
 
+        <p><ngb-progressbar type="dark" [value]="progress" *ngIf="submitting"></ngb-progressbar></p>
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" placeholder="Username" formControlName="username" [disabled]="submitting">
