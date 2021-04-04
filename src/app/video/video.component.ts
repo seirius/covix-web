@@ -2,11 +2,20 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EVENTS } from "src/app/socketio/socketio.data";
 import videojs from "video.js";
+import { FileResponse } from '../api/file.service';
+import { MediaResponse, MediaService } from '../api/media.service';
+import { RoomDto, RoomService } from '../api/room.service';
 import { DataService } from '../data.service';
 import { SocketService } from '../socketio/socket.service';
 import { VideoJsComponent } from '../video-js/video-js.component';
-import { Room } from './room.data';
-import { RoomService } from './room.service';
+
+function toVideoJsTrack(track: FileResponse): videojs.TextTrackOptions {
+    return {
+        src: `/api/media/${track.name}/track`,
+        srclang: track.originalName.split(".")[0],
+        kind: "subtitles"
+    };
+}
 
 @Component({
     selector: 'app-video',
@@ -32,16 +41,19 @@ export class VideoComponent implements OnInit, OnDestroy {
     public users: string[] = [];
 
     public id: string;
-    public room: Room;
+    public room: RoomDto;
 
     private preventPlayEmit = false;
     private preventPauseEmit = false;
+
+    private media: MediaResponse;
 
     constructor(
         private router: ActivatedRoute,
         private socketService: SocketService,
         private dataService: DataService,
-        private roomService: RoomService
+        private roomService: RoomService,
+        private mediaService: MediaService
     ) {
         this.initVideo();
     }
@@ -84,7 +96,7 @@ export class VideoComponent implements OnInit, OnDestroy {
             this.preventPauseEmit = true;
             this.videoJs.pause(currentTime);
         });
-        this.socketService.socket.on(EVENTS.NEW_TRACK, ({ language }: { language: string }) => this.addTrack(language));
+        this.socketService.socket.on(EVENTS.NEW_TRACK, (track: FileResponse) => this.addTrack(track));
         this.socketService.socket.on(EVENTS.REQUEST_CURRENT_TIME, () => this.updateRoomCurrentTime());
     }
 
@@ -98,23 +110,15 @@ export class VideoComponent implements OnInit, OnDestroy {
         this.emitPause(this.room.currentTime);
     }
 
-    public loadTracks(tracks: string[]): void {
+    public loadTracks(tracks: FileResponse[]): void {
         this.videoOptions.tracks = [];
         if (tracks?.length) {
-            tracks.forEach(track => this.videoOptions.tracks.push({
-                src: `/api/room/${this.id}/track/${track}`,
-                srclang: track,
-                kind: "subtitles"
-            }));
+            tracks.forEach(track => this.videoOptions.tracks.push(toVideoJsTrack(track)));
         }
     }
 
-    public addTrack(language: string): void {
-        this.videoJs.player.addRemoteTextTrack({
-            src: `/api/room/${this.id}/track/${language}`,
-            srclang: language,
-            kind: "subtitles",
-        }, true);
+    public async addTrack(track: FileResponse): Promise<void> {
+        this.videoJs.player.addRemoteTextTrack(toVideoJsTrack(track), true);
     }
 
     public initVideo(): void {
@@ -123,11 +127,12 @@ export class VideoComponent implements OnInit, OnDestroy {
             if (id) {
                 this.id = id;
                 this.room = await this.roomService.getRoom(this.id);
+                this.media = await this.mediaService.getMedia(this.room.mediaId);
                 this.videoOptions.sources.push({
-                    src: `/api/video?filename=${this.room.filename}`,
+                    src: `/api/media/${this.media.file.name}/video`,
                     type: "video/mp4"
                 });
-                this.loadTracks(this.room.tracks);
+                this.loadTracks(this.media.tracks);
                 if (this.room.users.length) {
                     this.room.users.forEach(user => this.addUser(user));
                 }

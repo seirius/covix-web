@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../data.service';
 
@@ -23,7 +22,6 @@ export class JoinRoomComponent implements OnInit {
 
     constructor(
         private readonly formBuilder: FormBuilder,
-        private readonly httpClient: HttpClient,
         private readonly router: Router,
         private readonly activatedRoute: ActivatedRoute,
         private readonly dataService: DataService

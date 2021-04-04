@@ -1,0 +1,5 @@
+<div class="container">
+    <div class="row" *ngIf="movies">
+        <app-movie class="col-md-6 col-lg-4" *ngFor="let movie of movies" [movie]="movie"></app-movie>
+    </div>
+</div>

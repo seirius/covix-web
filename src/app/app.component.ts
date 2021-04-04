@@ -10,8 +10,9 @@ import { SocketService } from './socketio/socket.service';
 export class AppComponent implements OnInit {
 
     public links = [
-        { title: "New Room", fragment: "new-room" },
-        { title: "Join Room", fragment: "join-room" }
+        { title: "Movies", fragment: "movies" },
+        { title: "Add Movie", fragment: "add-movie" },
+        { title: "Join Room", fragment: "join-room" },
     ];
 
     public connected = false;

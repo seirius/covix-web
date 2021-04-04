@@ -4,14 +4,6 @@
         <form [formGroup]="formGroup" novalidate (ngSubmit)="onSubmit()">
         
             <div class="form-group">
-                <label for="username">Language</label>
-                <input type="text" class="form-control" id="language" placeholder="Language" formControlName="language" [disabled]="submitting">
-                <div class="invalid-feedback">
-                    Set the freaking language.
-                </div>
-            </div>
-        
-            <div class="form-group">
                 <div class="custom-file">
                     <input #file type="file" class="custom-file-input" id="subtitleFile" (change)="onFileChange($event)" [disabled]="submitting" accept=".vtt">
                     <label class="custom-file-label" for="subtitleFile">Choose subtitle.vtt...</label>

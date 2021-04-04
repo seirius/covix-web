@@ -2,8 +2,8 @@
     <div class="row fill-height">
         <div class="col-12 col-sm-4 col-lg-3 col-xl-2">
             <app-user-list [users]="users"></app-user-list>
-            <div class="tracks">
-                <app-add-track [roomId]="id"></app-add-track>
+            <div class="tracks" *ngIf="room">
+                <app-add-track [room]="room"></app-add-track>
             </div>
         </div>
         <div class="col-12 col-sm-8 col-lg-9 col-xl-10">

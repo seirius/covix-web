@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { AddMovieComponent } from './add-movie/add-movie.component';
 import { JoinRoomComponent } from './join-room/join-room.component';
+import { MovieListComponent } from './movie-list/movie-list.component';
+import { MovieProfileComponent } from './movie-profile/movie-profile.component';
 import { NewRoomComponent } from './new-room/new-room.component';
 import { VideoJoinGuard } from './video/video-join-guard.service';
 import { VideoComponent } from './video/video.component';
@@ -24,6 +27,18 @@ const routes: Routes = [
         path: "video",
         component: VideoComponent,
         canActivate: [VideoJoinGuard]
+    },
+    {
+        path: "add-movie",
+        component: AddMovieComponent
+    },
+    {
+        path: "movie",
+        component: MovieProfileComponent
+    },
+    {
+        path: "movies",
+        component: MovieListComponent
     }
 ];
 
