@@ -1,0 +1,24 @@
+<div class="container" *ngIf="users">
+    <div class="row">
+        <div class="col-xs-12 col-md-4 col-lg-2 card text-white mb-3">
+            <div class="card-body" (ngSubmit)="onSubmit()">
+                <form [formGroup]="formGroup" novalidate (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="username" placeholder="Username" formControlName="username">
+                        <div class="invalid-feedback">
+                            Please provide a username.
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning btn-lg" [disabled]="formGroup.invalid || formGroup.pristine">New user</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div *ngFor="let user of users" class="col-xs-12 col-md-4 col-lg-2 card text-white bg-primary mb-3 user-card" (click)="selectUser(user)">
+            <div class="card-body">
+                <h5 class="card-title text-center">{{user.username}}</h5>
+            </div>
+        </div>
+    </div>
+</div>

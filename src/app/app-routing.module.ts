@@ -1,44 +1,43 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddMovieComponent } from './add-movie/add-movie.component';
-import { JoinRoomComponent } from './join-room/join-room.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { MovieProfileComponent } from './movie-profile/movie-profile.component';
-import { NewRoomComponent } from './new-room/new-room.component';
-import { VideoJoinGuard } from './video/video-join-guard.service';
+import { UserGuard } from './user-selection/user-guard.service';
+import { UserSelectionComponent } from './user-selection/user-selection.component';
 import { VideoComponent } from './video/video.component';
 
 
 const routes: Routes = [
     {
         path: "",
-        redirectTo: "/new-room",
-        pathMatch: "full"
-    },
-    {
-        path: "new-room",
-        component: NewRoomComponent
-    },
-    {
-        path: "join-room",
-        component: JoinRoomComponent
+        redirectTo: "/movies",
+        pathMatch: "full",
+        canActivate: [UserGuard]
     },
     {
         path: "video",
         component: VideoComponent,
-        canActivate: [VideoJoinGuard]
+        canActivate: [UserGuard]
     },
     {
         path: "add-movie",
-        component: AddMovieComponent
+        component: AddMovieComponent,
+        canActivate: [UserGuard]
     },
     {
         path: "movie",
-        component: MovieProfileComponent
+        component: MovieProfileComponent,
+        canActivate: [UserGuard]
     },
     {
         path: "movies",
-        component: MovieListComponent
+        component: MovieListComponent,
+        canActivate: [UserGuard]
+    },
+    {
+        path: "users",
+        component: UserSelectionComponent
     }
 ];
 

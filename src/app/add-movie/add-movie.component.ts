@@ -1,11 +1,14 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FileService } from '../api/file.service';
 import { MovieService } from '../api/movie.service';
 
 const INPUTS = {
 	LABEL: "label",
-	FILE: "file"
+	FILE: "file",
+	ICON_URL: "iconUrl",
+	ICON: "icon"
 };
 
 @Component({
@@ -20,14 +23,17 @@ export class AddMovieComponent implements OnInit {
 
     public formGroup: FormGroup = this.formBuilder.group({
 		[INPUTS.LABEL]: [null, Validators.required],
-		[INPUTS.FILE]: [null, Validators.required]
+		[INPUTS.FILE]: [null, Validators.required],
+		[INPUTS.ICON_URL]: [null],
+		[INPUTS.ICON]: [null]
 	});
 
     constructor(
 		private formBuilder: FormBuilder,
 		private cd: ChangeDetectorRef,
 		private readonly fileService: FileService,
-		private readonly movieService: MovieService
+		private readonly movieService: MovieService,
+		private readonly router: Router
     ) { }
 
 
@@ -36,19 +42,28 @@ export class AddMovieComponent implements OnInit {
 		const formData = new FormData();
 		formData.append(INPUTS.FILE, this.formGroup.get(INPUTS.FILE).value);
 		const { name } = await this.fileService.uploadFile(formData, progress => this.progress = progress);
+		let icon = this.formGroup.get(INPUTS.ICON).value;
+		if (icon) {
+			const iconData = new FormData();
+			iconData.append("file", icon);
+			const { name: iconName } = await this.fileService.uploadFile(iconData);
+			icon = iconName;
+		}
 		const movieResponse = await this.movieService.addMovie({
 			name,
-			label: this.formGroup.get(INPUTS.LABEL).value
+			label: this.formGroup.get(INPUTS.LABEL).value,
+			iconUrl: this.formGroup.get(INPUTS.ICON_URL).value,
+			icon
 		});
-		console.log(movieResponse);
 		this.progress = 0;
 		this.submitting = false;
+		this.router.navigate(["movie"], { queryParams: { id: movieResponse.id }});
 	}
 
-    public onFileChange(event) {
+    public onFileChange(event, field: string) {
 		if (event?.target?.files?.length) {
 			const [file] = event.target.files;
-			this.formGroup.get(INPUTS.FILE).setValue(file);
+			this.formGroup.get(field).setValue(file);
 			this.cd.markForCheck();
 		}
 	}

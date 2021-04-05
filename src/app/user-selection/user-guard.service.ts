@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from "@angular/ro
 import { DataService } from "../data.service";
 
 @Injectable()
-export class VideoJoinGuard {
+export class UserGuard {
 
     constructor(
         private router: Router,
@@ -14,15 +14,14 @@ export class VideoJoinGuard {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): boolean {
-        if (this.dataService.username && this.dataService.roomId) {
+        if (this.dataService.username) {
             return true;
         }
-        const { id } = route.queryParams;
-        if (!id) {
-            this.router.navigate(["/new-room"]);
-            return false;
-        }
-        this.router.navigate(["/join-room"], { queryParams: { id } });
+        this.dataService.backtrace = {
+            url: route.routeConfig.path,
+            params: route.queryParams
+        };
+        this.router.navigate(["/users"]);
         return true;
     }
 

@@ -9,16 +9,15 @@ import { ApiModule } from './api/api.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataService } from './data.service';
-import { JoinRoomComponent } from './join-room/join-room.component';
 import { MovieProfileComponent } from './movie-profile/movie-profile.component';
 import { MovieComponent } from './movie/movie.component';
-import { NewRoomComponent } from './new-room/new-room.component';
 import { SocketModule } from './socketio/socket.module';
 import { UserListComponent } from './user-list/user-list.component';
 import { VideoJsComponent } from './video-js/video-js.component';
-import { VideoJoinGuard } from './video/video-join-guard.service';
 import { VideoComponent } from './video/video.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
+import { UserSelectionComponent } from './user-selection/user-selection.component';
+import { UserGuard } from "./user-selection/user-guard.service";
 
 
 @NgModule({
@@ -26,14 +25,13 @@ import { MovieListComponent } from './movie-list/movie-list.component';
     AppComponent,
     VideoComponent,
     VideoJsComponent,
-    NewRoomComponent,
-    JoinRoomComponent,
     UserListComponent,
     AddTrackComponent,
     AddMovieComponent,
     MovieComponent,
     MovieProfileComponent,
-    MovieListComponent
+    MovieListComponent,
+    UserSelectionComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +43,7 @@ import { MovieListComponent } from './movie-list/movie-list.component';
     SocketModule,
     ApiModule
   ],
-  providers: [DataService, VideoJoinGuard],
+  providers: [DataService, UserGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

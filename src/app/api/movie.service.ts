@@ -4,6 +4,8 @@ import { Injectable } from "@angular/core";
 export interface AddMovieArgs {
     label: string;
     name: string;
+    iconUrl?: string;
+    icon?: string;
 }
 
 export interface MovieResponse {
@@ -11,6 +13,8 @@ export interface MovieResponse {
     mediaId: string;
     filename: string;
     label: string;
+    iconUrl?: string;
+    icon?: string;
 }
 
 @Injectable()
@@ -36,6 +40,12 @@ export class MovieService {
     public getMovies(): Promise<MovieResponse[]> {
         return this.httpClient
         .get<MovieResponse[]>("/api/movie/list")
+        .toPromise();
+    }
+
+    public deleteMovie(id: string): Promise<void> {
+        return this.httpClient
+        .delete<void>(`/api/movie/${id}`)
         .toPromise();
     }
 

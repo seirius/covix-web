@@ -1,9 +1,11 @@
 <div class="card mb-3">
-    <img src="https://cdn4.iconfinder.com/data/icons/planner-color/64/popcorn-movie-time-512.png" class="card-img-top">
+    <img [src]="icon" class="card-img-top icon-image">
     <div class="card-body">
         <h5 class="card-title">{{movie?.label}}</h5>
         <div class="text-center">
             <button class="btn btn-primary" (click)="watch()">Watch</button>
+            <button class="btn btn-danger" (click)="askDelete()" *ngIf="!sure">Delete</button>
+            <button class="btn btn-danger" (click)="delete()" *ngIf="sure">Are you sure?</button>
         </div>
     </div>
   </div>

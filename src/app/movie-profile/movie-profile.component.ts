@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MovieResponse, MovieService } from '../api/movie.service';
+import { SocketService } from '../socketio/socket.service';
+import { EVENTS } from '../socketio/socketio.data';
 
 @Component({
     selector: 'app-movie-profile',
@@ -13,7 +15,9 @@ export class MovieProfileComponent implements OnInit {
 
     constructor(
         private readonly router: ActivatedRoute,
-        private readonly movieService: MovieService
+        private readonly routerToMove: Router,
+        private readonly movieService: MovieService,
+        private readonly socketService: SocketService
     ) {
         this.initMovie();
     }
@@ -22,6 +26,15 @@ export class MovieProfileComponent implements OnInit {
         this.router.queryParams.subscribe(async ({ id }) => {
             if (id) {
                 this.movieResponse = await this.movieService.getMovie(id);
+                if (!this.movieResponse) {
+                    this.routerToMove.navigate(["/movies"]);
+                } else {
+                    this.socketService.socket.on(EVENTS.MOVIE_DELETE, (deletedId: string) => {
+                        if (id === deletedId) {
+                            this.routerToMove.navigate(["/movies"]);
+                        }
+                    });
+                }
             } else {
                 alert("Not valid movie's id");
             }
