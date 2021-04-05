@@ -32,9 +32,9 @@ export class RoomService {
         .toPromise();
     }
 
-    public newRoom(mediaId: string): Promise<RoomResponse> {
+    public newRoom(mediaId: string, username: string): Promise<RoomResponse> {
         return this.httpClient
-        .post<RoomResponse>(`/api/room`, { mediaId })
+        .post<RoomResponse>(`/api/room`, { mediaId, username })
         .toPromise();
     }
 

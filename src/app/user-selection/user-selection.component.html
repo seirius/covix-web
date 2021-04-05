@@ -15,9 +15,14 @@
                 </form>
             </div>
         </div>
-        <div *ngFor="let user of users" class="col-xs-12 col-md-4 col-lg-2 card text-white bg-primary mb-3 user-card" (click)="selectUser(user)">
-            <div class="card-body">
+        <div *ngFor="let user of users" 
+        class="col-xs-12 col-md-4 col-lg-2 card text-white bg-primary mb-3">
+            <div class="card-body user-card" (click)="selectUser(user)">
                 <h5 class="card-title text-center">{{user.username}}</h5>
+            </div>
+            <div class="card-footer text-center">
+                <button class="btn btn-danger" *ngIf="!user.sure" (click)="tryDelete(user, $event)">Remove</button>
+                <button class="btn btn-danger" *ngIf="user.sure" (click)="deleteUser(user, $event)">Sure?</button>
             </div>
         </div>
     </div>

@@ -35,12 +35,14 @@ export class UserSelectionComponent implements OnInit {
 
     public async init(): Promise<void> {
         this.users = await this.userService.getFreeUsers();
+        this.users.forEach(user => (<any>user).sure = false);
     }
 
     ngOnInit(): void {
         this.socketService.socket.on(EVENTS.USER_LEFT, () => this.init());
         this.socketService.socket.on(EVENTS.USER_JOINED, () => this.init());
         this.socketService.socket.on(EVENTS.NEW_USER, () => this.init());
+        this.socketService.socket.on(EVENTS.USER_DELETED, () => this.init());
     }
 
     public async onSubmit(): Promise<void> {
@@ -65,6 +67,14 @@ export class UserSelectionComponent implements OnInit {
         } else {
             await this.router.navigate(["/movies"]);
         }
+    }
+
+    public async deleteUser(user: UserResponse, event: any): Promise<void> {
+        await this.userService.deleteUser(user.username);
+    }
+
+    public tryDelete(user: UserResponse, event: any): void {
+        (<any>user).sure = true;
     }
 
 }

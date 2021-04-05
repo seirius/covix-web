@@ -36,4 +36,8 @@ export class AppComponent implements OnInit {
         this.router.navigate(["/"]);
     }
 
+    public get username(): string {
+        return this.dataService.username;
+    }
+
 }

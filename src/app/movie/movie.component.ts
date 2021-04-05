@@ -37,7 +37,7 @@ export class MovieComponent implements OnInit {
     }
 
     public async watch(): Promise<void> {
-        const room = await this.roomService.newRoom(this.movie.mediaId);
+        const room = await this.roomService.newRoom(this.movie.mediaId, this.dataService.username);
         this.dataService.roomId = room.roomId;
         await this.router.navigate(["/video"], { queryParams: { id: room.roomId } });
     }
