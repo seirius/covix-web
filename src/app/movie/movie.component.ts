@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { MovieResponse, MovieService } from '../api/movie.service';
 import { RoomService } from '../api/room.service';
 import { DataService } from '../data.service';
-import { SocketService } from '../socketio/socket.service';
 
 @Component({
     selector: 'app-movie',

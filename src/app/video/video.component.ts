@@ -33,7 +33,8 @@ export class VideoComponent implements OnInit, OnDestroy {
         sources: [],
         preload: "auto",
         liveui: true,
-        bigPlayButton: false
+        bigPlayButton: true,
+        muted: false
     };
 
     public startVideo = false;
@@ -126,6 +127,7 @@ export class VideoComponent implements OnInit, OnDestroy {
         this.router.queryParams.subscribe(async ({ id }) => {
             if (id) {
                 this.id = id;
+                this.dataService.roomId = id;
                 this.room = await this.roomService.getRoom(this.id);
                 this.media = await this.mediaService.getMedia(this.room.mediaId);
                 this.videoOptions.sources.push({
