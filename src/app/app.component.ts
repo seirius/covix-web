@@ -13,7 +13,8 @@ export class AppComponent implements OnInit {
 
     public links = [
         { title: "Movies", fragment: "movies" },
-        { title: "Add Movie", fragment: "add-movie" }
+        { title: "Add Movie", fragment: "add-movie" },
+        { title: "Live rooms", fragment: "live-rooms" }
     ];
 
     public connected = false;

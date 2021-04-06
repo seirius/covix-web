@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddMovieComponent } from './add-movie/add-movie.component';
+import { LiveRoomsComponent } from './live-rooms/live-rooms.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { MovieProfileComponent } from './movie-profile/movie-profile.component';
 import { UserGuard } from './user-selection/user-guard.service';
@@ -33,6 +34,11 @@ const routes: Routes = [
     {
         path: "movies",
         component: MovieListComponent,
+        canActivate: [UserGuard]
+    },
+    {
+        path: "live-rooms",
+        component: LiveRoomsComponent,
         canActivate: [UserGuard]
     },
     {

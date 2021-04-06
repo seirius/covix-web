@@ -13,6 +13,12 @@ export interface RoomDto {
     mediaId: string;
 }
 
+export interface RoomWithMediaResponse {
+    roomId: string;
+    mediaLabel: string;
+    usernames: string[];
+}
+
 @Injectable()
 export class RoomService {
 
@@ -22,7 +28,9 @@ export class RoomService {
 
     public getRoom(roomId: string): Promise<RoomDto> {
         return this.httpClient
-        .get<RoomDto>(`/api/room/${roomId}`)
+        .get<RoomDto>(`/api/room`, {
+            params: { id: roomId }
+        })
         .toPromise();
     }
 
@@ -35,6 +43,12 @@ export class RoomService {
     public newRoom(mediaId: string, username: string): Promise<RoomResponse> {
         return this.httpClient
         .post<RoomResponse>(`/api/room`, { mediaId, username })
+        .toPromise();
+    }
+
+    public getLiveRooms(): Promise<RoomWithMediaResponse[]> {
+        return this.httpClient
+        .get<RoomWithMediaResponse[]>("/api/room/live")
         .toPromise();
     }
 

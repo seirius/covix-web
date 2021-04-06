@@ -18,6 +18,7 @@ import { VideoComponent } from './video/video.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { UserSelectionComponent } from './user-selection/user-selection.component';
 import { UserGuard } from "./user-selection/user-guard.service";
+import { LiveRoomsComponent } from './live-rooms/live-rooms.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { UserGuard } from "./user-selection/user-guard.service";
     MovieComponent,
     MovieProfileComponent,
     MovieListComponent,
-    UserSelectionComponent
+    UserSelectionComponent,
+    LiveRoomsComponent
   ],
   imports: [
     BrowserModule,

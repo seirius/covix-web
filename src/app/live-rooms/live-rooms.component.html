@@ -1,0 +1,17 @@
+<div class="container" *ngIf="rooms">
+    <div class="row">
+        <div *ngFor="let room of rooms" 
+        class="col-xs-12 col-md-4 col-lg-2 card mb-3">
+            <div class="card-header text-center">
+                <h5 class="card-title">{{room.mediaLabel}}</h5>
+                <span class="badge bg-primary text-white">{{room.owner}}</span>
+            </div>
+            <div class="card-body">
+                <span class="badge bg-info user-badge text-white" *ngFor="let username of room.usernames">{{username}}</span>
+            </div>
+            <div class="card-footer text-center">
+                <button class="btn btn-success" (click)="joinRoom(room)">Join</button>
+            </div>
+        </div>
+    </div>
+</div>
