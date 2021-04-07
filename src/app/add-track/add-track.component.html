@@ -5,7 +5,7 @@
         
             <div class="form-group">
                 <div class="custom-file">
-                    <input #file type="file" class="custom-file-input" id="subtitleFile" (change)="onFileChange($event)" [disabled]="submitting" accept=".vtt">
+                    <input #file type="file" class="custom-file-input" id="subtitleFile" (change)="onFileChange($event)" [disabled]="submitting" accept=".vtt,.srt">
                     <label class="custom-file-label" for="subtitleFile">Choose subtitle.vtt...</label>
                     <div class="invalid-feedback">No subtitle selected</div>
                 </div>
