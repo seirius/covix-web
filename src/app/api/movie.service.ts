@@ -7,7 +7,12 @@ export interface AddMovieArgs {
     iconUrl?: string;
     icon?: string;
 }
-
+export interface TorrentAsMovieArgs {
+    feed: string;
+    label: string;
+    iconUrl?: string;
+    icon?: string;
+}
 export interface MovieResponse {
     id: string;
     mediaId: string;
@@ -27,6 +32,12 @@ export class MovieService {
     public addMovie(args: AddMovieArgs): Promise<MovieResponse> {
         return this.httpClient
         .post<MovieResponse>("/api/movie", args)
+        .toPromise();
+    }
+
+    public addMovieFromTorrent(args: TorrentAsMovieArgs): Promise<MovieResponse> {
+        return this.httpClient
+        .post<MovieResponse>("/api/movie/torrent", args)
         .toPromise();
     }
 

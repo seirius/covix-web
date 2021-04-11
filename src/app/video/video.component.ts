@@ -3,8 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { EVENTS } from "src/app/socketio/socketio.data";
 import videojs from "video.js";
 import { FileResponse } from '../api/file.service';
+import { MediaSourceService } from '../api/media-source.service';
 import { MediaResponse, MediaService } from '../api/media.service';
 import { RoomDto, RoomService } from '../api/room.service';
+import { TorrentResponse } from '../api/torrent-client.service';
 import { DataService } from '../data.service';
 import { SocketService } from '../socketio/socket.service';
 import { VideoJsComponent } from '../video-js/video-js.component';
@@ -48,13 +50,15 @@ export class VideoComponent implements OnInit, OnDestroy {
     private preventPauseEmit = false;
 
     private media: MediaResponse;
+    public torrent: TorrentResponse;
 
     constructor(
         private router: ActivatedRoute,
         private socketService: SocketService,
         private dataService: DataService,
         private roomService: RoomService,
-        private mediaService: MediaService
+        private mediaService: MediaService,
+        private mediaSourceService: MediaSourceService
     ) {
         this.initVideo();
     }
@@ -122,6 +126,16 @@ export class VideoComponent implements OnInit, OnDestroy {
         this.videoJs.player.addRemoteTextTrack(toVideoJsTrack(track), true);
     }
 
+    private async getTorrentByMedia(id: string): Promise<TorrentResponse> {
+        let response = null;
+        try {
+            this.torrent = await this.mediaSourceService.getTorrentByMedia(id);
+        } catch (error) {
+            console.error(error);
+        }
+        return response;
+    }
+
     public initVideo(): void {
         this.addSocketListeners();
         this.router.queryParams.subscribe(async ({ id }) => {
@@ -138,13 +152,22 @@ export class VideoComponent implements OnInit, OnDestroy {
                 if (this.room.users.length) {
                     this.room.users.forEach(user => this.addUser(user));
                 }
-                this.startVideo = true;
                 this.socketService.socket.emit(EVENTS.JOIN_ROOM, {
                     roomId: id,
                     username: this.dataService.username
                 });
+                await this.getTorrentByMedia(this.media.id);
+                if (!this.torrent || this.torrent.progress >= .1) {
+                    this.startVideo = true;
+                }
             }
         });
+    }
+
+    public onTorrentProgress(progress: number) {
+        if (progress > .1 && !this.startVideo) {
+            this.startVideo = true;
+        }
     }
 
     ngOnInit(): void {

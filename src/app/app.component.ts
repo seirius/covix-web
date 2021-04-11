@@ -14,7 +14,9 @@ export class AppComponent implements OnInit {
     public links = [
         { title: "Movies", fragment: "movies" },
         { title: "Add Movie", fragment: "add-movie" },
-        { title: "Live rooms", fragment: "live-rooms" }
+        { title: "Live rooms", fragment: "live-rooms" },
+        { title: "Torrent feeds", fragment: "torrent-feed" },
+        { title: "Torrent list", fragment: "torrent-list" },
     ];
 
     public connected = false;

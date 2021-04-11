@@ -1,0 +1,7 @@
+<div class="card">
+    <div class="card-header"><h6>Torrent progress</h6></div>
+    <div class="card-body">
+        <p><ngb-progressbar [type]="torrent.progress <= .1 ? 'danger' : 'success'" [value]="torrent.progress * 100" [striped]="true" [animated]="true" [showValue]="true"></ngb-progressbar></p>
+        <p>Speed: {{ torrent.speed / toMb | number : '1.2-2' }} mb/s</p>
+    </div>
+</div>

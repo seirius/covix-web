@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { FileResponse } from "./file.service";
 
 export interface MediaResponse {
+    id: string;
     file: FileResponse;
     tracks?: FileResponse[];
 }

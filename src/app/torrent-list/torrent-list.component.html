@@ -1,0 +1,22 @@
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Progress</th>
+                <th scope="col">State</th>
+                <th scope="col">Download speed</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let torrent of torrents">
+                <td>{{ torrent.name }}</td>
+                <td>{{ torrent.progress | percent }}</td>
+                <td>{{ torrent.state }}</td>
+                <td>{{ torrent.speed / toMb | number : '1.2-2' }} mb/s</td>
+                <td><button type="button" class="btn btn-success" (click)="watch(torrent)">Watch</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

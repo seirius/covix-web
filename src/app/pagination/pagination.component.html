@@ -1,0 +1,9 @@
+<ul class="pagination justify-content-center" [class.d-none]="!pages">
+    <li class="page-item"><a class="page-link" (click)="edges()">First</a></li>
+    <li class="page-item"><a class="page-link" (click)="move(false)">Previous</a></li>
+    <li class="page-item text-center" *ngFor="let page of range" [class.active]="currentPage === page" (click)="click(page)">
+        <a class="page-link">{{page}}</a>
+    </li>
+    <li class="page-item"><a class="page-link" (click)="move()">Next</a></li>
+    <li class="page-item"><a class="page-link" (click)="edges(false)">Last</a></li>
+</ul>

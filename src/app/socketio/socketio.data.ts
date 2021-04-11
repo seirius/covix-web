@@ -11,5 +11,10 @@ export const EVENTS = {
     NEW_USER: "new-user",
     USER_LEFT: "user-left",
     USER_JOINED: "user-joined",
-    USER_DELETED: "user-deleted"
+    USER_DELETED: "user-deleted",
+    TORRENT_UPDATE: "torrent-update"
 };
+
+export function torrentEvent(name: string): string {
+    return `${EVENTS.TORRENT_UPDATE}/${name}`;
+}

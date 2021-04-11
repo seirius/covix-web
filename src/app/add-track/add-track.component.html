@@ -1,17 +1,17 @@
 <div class="card">
-    <div class="card-header">Add subtitle</div>
+    <div class="card-header"><h6>Tracks</h6></div>
     <div class="card-body">
         <form [formGroup]="formGroup" novalidate (ngSubmit)="onSubmit()">
         
             <div class="form-group">
                 <div class="custom-file">
                     <input #file type="file" class="custom-file-input" id="subtitleFile" (change)="onFileChange($event)" [disabled]="submitting" accept=".vtt,.srt">
-                    <label class="custom-file-label" for="subtitleFile">Choose subtitle.vtt...</label>
-                    <div class="invalid-feedback">No subtitle selected</div>
+                    <label class="custom-file-label" for="subtitleFile">Choose track.vtt...</label>
+                    <div class="invalid-feedback">No track selected</div>
                 </div>
             </div>
         
-            <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid || formGroup.pristine" [disabled]="submitting">Add subtitle</button>
+            <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid || formGroup.pristine" [disabled]="submitting">Add track</button>
         </form>
     </div>
 </div>

@@ -1,0 +1,14 @@
+<div class="card mb-3">
+    <img [src]="movie.icon" class="card-img-top icon-image">
+    <div class="card-body">
+        <h5 class="card-title">{{movie.label}}</h5>
+        <div class="text-center">
+            <div class="d-inline-block" ngbDropdown>
+                <button class="btn btn-outline-primary mr-2" id="dropdownManual" ngbDropdownToggle>Download</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownManual">
+                    <button ngbDropdownItem *ngFor="let feed of movie.feeds" (click)="select(feed)">{{feed.quality}} - {{feed.size}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

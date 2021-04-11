@@ -5,6 +5,7 @@
             <div class="tracks" *ngIf="room">
                 <app-add-track [room]="room"></app-add-track>
             </div>
+            <app-torrent-progress (onProgress)="onTorrentProgress($event)" [torrent]="torrent" *ngIf="torrent && torrent.state !== 'done'"></app-torrent-progress>
         </div>
         <div class="col-12 col-sm-8 col-lg-9 col-xl-10">
             <app-video-js *ngIf="startVideo" [options]="videoOptions"

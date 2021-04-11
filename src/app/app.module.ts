@@ -19,6 +19,11 @@ import { MovieListComponent } from './movie-list/movie-list.component';
 import { UserSelectionComponent } from './user-selection/user-selection.component';
 import { UserGuard } from "./user-selection/user-guard.service";
 import { LiveRoomsComponent } from './live-rooms/live-rooms.component';
+import { TorrentFeedComponent } from './torrent-feed/torrent-feed.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { TfItemComponent } from './torrent-feed/tf-item/tf-item.component';
+import { TorrentListComponent } from './torrent-list/torrent-list.component';
+import { TorrentProgressComponent } from './torrent-progress/torrent-progress.component';
 
 
 @NgModule({
@@ -33,7 +38,12 @@ import { LiveRoomsComponent } from './live-rooms/live-rooms.component';
     MovieProfileComponent,
     MovieListComponent,
     UserSelectionComponent,
-    LiveRoomsComponent
+    LiveRoomsComponent,
+    TorrentFeedComponent,
+    PaginationComponent,
+    TfItemComponent,
+    TorrentListComponent,
+    TorrentProgressComponent
   ],
   imports: [
     BrowserModule,

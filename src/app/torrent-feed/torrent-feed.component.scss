@@ -1,0 +1,25 @@
+.torrent-feed {
+    display: flex;
+    flex-direction: column;
+    .container {
+        flex: 1;
+    }
+    .container-fluid {
+        position: relative;
+        flex: auto;
+        overflow: auto;
+        padding-top: 10px;
+        .no-results {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.3;
+            font-size: 2rem;
+            user-select: none;
+            z-index: -1;
+        }
+    }
+}
