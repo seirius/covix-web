@@ -1,0 +1,20 @@
+input[type="radio"], input[type="checkbox"] {
+    line-height: normal;
+    margin: 0;
+}
+
+.red {
+    background-color: rgb(193, 51, 59);
+}
+
+.control-panel {
+    display: flex;
+    justify-content: space-between;
+    .left {
+        flex: 1;
+    }
+    .right {
+        text-align: right;
+        flex: 1;
+    }
+}

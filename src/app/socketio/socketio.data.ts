@@ -12,7 +12,10 @@ export const EVENTS = {
     USER_LEFT: "user-left",
     USER_JOINED: "user-joined",
     USER_DELETED: "user-deleted",
-    TORRENT_UPDATE: "torrent-update"
+    TORRENT_UPDATE: "torrent-update",
+    TORRENT_DELETE: "torrent-delete",
+    TORRENT_ADD: "torrent-add",
+    TORRENT_PAUSE: "torrent-pause"
 };
 
 export function torrentEvent(name: string): string {

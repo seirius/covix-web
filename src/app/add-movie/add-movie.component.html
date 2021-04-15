@@ -22,6 +22,14 @@
         </div>
 
         <div class="form-group">
+            <label for="label">Torrent Feed</label>
+            <input type="text" class="form-control" id="label" placeholder="Link to torrent or magnet link" formControlName="torrent_feed" [disabled]="submitting">
+            <div class="invalid-feedback">
+                Please provide a Torrent Feed.
+            </div>
+        </div>
+
+        <div class="form-group">
             <label for="label">Icon URL</label>
             <input type="text" class="form-control" id="label" placeholder="Icon URL" formControlName="iconUrl" [disabled]="submitting">
             <div class="invalid-feedback">
@@ -38,6 +46,6 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid || formGroup.pristine" [disabled]="submitting">Add movie</button>
+        <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid || formGroup.pristine" [disabled]="formGroup.invalid || submitting">Add movie</button>
     </form>
 </div>

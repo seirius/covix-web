@@ -60,12 +60,17 @@ export class TorrentFeedComponent implements OnInit {
     }
 
     public async feedSelected(feed: Feed, tfMovie: MovieTf): Promise<void> {
-        const movie = await this.movieService.addMovieFromTorrent({
-            feed: feed.url,
-            iconUrl: tfMovie.icon,
-            label: tfMovie.label
-        });
-		this.router.navigate(["torrent-list"]);
+        try {
+            await this.movieService.addMovieFromTorrent({
+                feed: feed.url,
+                iconUrl: tfMovie.icon,
+                label: tfMovie.label
+            });
+            this.router.navigate(["torrent-list"]);
+        } catch (error) {
+            console.error(error);
+            alert(error?.error?.message);
+        }
     }
 
 }

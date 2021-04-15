@@ -1,22 +1,62 @@
 <div class="container">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Progress</th>
-                <th scope="col">State</th>
-                <th scope="col">Download speed</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let torrent of torrents">
-                <td>{{ torrent.name }}</td>
-                <td>{{ torrent.progress | percent }}</td>
-                <td>{{ torrent.state }}</td>
-                <td>{{ torrent.speed / toMb | number : '1.2-2' }} mb/s</td>
-                <td><button type="button" class="btn btn-success" (click)="watch(torrent)">Watch</button></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row mb-3">
+        <div class="col">
+            <div class="control-panel">
+                <div class="left">
+                    <div ngbDropdown class="d-inline-block">
+                        <button class="btn btn-outline-info" id="dropdownBasic1"
+                            ngbDropdownToggle>Actions</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                            <button class="" ngbDropdownItem (click)="resume()">Resume</button>
+                            <button class="" ngbDropdownItem (click)="pause()">Pause</button>
+                            <button class="red" ngbDropdownItem (click)="delete()">Delete</button>
+                        </div>
+                    </div>
+                    <div class="spinner-grow text-danger ml-3" [class.d-none]="!loading" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="right">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="all"
+                                    (change)="allChecked()">
+                            </div>
+                        </th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Progress</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Download speed</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let wrapper of torrents">
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="wrapper.marked"
+                                    (change)="wrapperChanged(wrapper)">
+                            </div>
+                        </td>
+                        <td>{{ wrapper.torrent.name }}</td>
+                        <td>{{ wrapper.torrent.progress | percent }}</td>
+                        <td>{{ wrapper.torrent.state }}</td>
+                        <td>{{ wrapper.torrent.speed / toMb | number : '1.2-2' }} mb/s</td>
+                        <td><button type="button" class="btn btn-success"
+                                (click)="watch(wrapper.torrent)">Watch</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

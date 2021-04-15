@@ -2,11 +2,14 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FileService } from '../api/file.service';
-import { MovieService } from '../api/movie.service';
+import { MovieResponse, MovieService } from '../api/movie.service';
+import { RoomService } from '../api/room.service';
+import { DataService } from '../data.service';
 
 const INPUTS = {
 	LABEL: "label",
 	FILE: "file",
+	TORRENT_FEED: "torrent_feed",
 	ICON_URL: "iconUrl",
 	ICON: "icon"
 };
@@ -23,7 +26,8 @@ export class AddMovieComponent implements OnInit {
 
     public formGroup: FormGroup = this.formBuilder.group({
 		[INPUTS.LABEL]: [null, Validators.required],
-		[INPUTS.FILE]: [null, Validators.required],
+		[INPUTS.FILE]: null,
+		[INPUTS.TORRENT_FEED]: null,
 		[INPUTS.ICON_URL]: [null],
 		[INPUTS.ICON]: [null]
 	});
@@ -33,31 +37,50 @@ export class AddMovieComponent implements OnInit {
 		private cd: ChangeDetectorRef,
 		private readonly fileService: FileService,
 		private readonly movieService: MovieService,
+		private readonly roomService: RoomService,
+		private readonly dataService: DataService,
 		private readonly router: Router
     ) { }
 
-
-	public async onSubmit(): Promise<void> {
-		this.submitting = true;
-		const formData = new FormData();
-		formData.append(INPUTS.FILE, this.formGroup.get(INPUTS.FILE).value);
-		const { name } = await this.fileService.uploadFile(formData, progress => this.progress = progress);
-		let icon = this.formGroup.get(INPUTS.ICON).value;
+	public async uploadIcon(): Promise<string> {
+		const icon = this.formGroup.get(INPUTS.ICON).value;
 		if (icon) {
 			const iconData = new FormData();
 			iconData.append("file", icon);
-			const { name: iconName } = await this.fileService.uploadFile(iconData);
-			icon = iconName;
+			const { name } = await this.fileService.uploadFile(iconData);
+			return name;
 		}
-		const movieResponse = await this.movieService.addMovie({
-			name,
-			label: this.formGroup.get(INPUTS.LABEL).value,
-			iconUrl: this.formGroup.get(INPUTS.ICON_URL).value,
-			icon
-		});
-		this.progress = 0;
-		this.submitting = false;
-		this.router.navigate(["movie"], { queryParams: { id: movieResponse.id }});
+		return null;
+	}
+
+
+	public async onSubmit(): Promise<void> {
+		if (this.formGroup.valid) {
+			this.submitting = true;
+			const feed = this.formGroup.get(INPUTS.TORRENT_FEED).value;
+			const file = this.formGroup.get(INPUTS.FILE).value;
+			if (!feed && !file) {
+				alert("A feed or a video file is required");
+			}
+			const label = this.formGroup.get(INPUTS.LABEL).value;
+			const iconUrl = this.formGroup.get(INPUTS.ICON_URL).value;
+			const icon = await this.uploadIcon();
+			const formData = new FormData();
+			let movieResponse: MovieResponse;
+			if (feed) {
+				movieResponse = await this.movieService
+				.addMovieFromTorrent({ feed, label, icon, iconUrl });
+			} else {
+				formData.append(INPUTS.FILE, this.formGroup.get(INPUTS.FILE).value);
+				const { name } = await this.fileService.uploadFile(formData, progress => this.progress = progress);
+				movieResponse = await this.movieService.addMovie({ name, label, iconUrl, icon });
+			}
+			const room = await this.roomService.newRoom(movieResponse.mediaId, this.dataService.username);
+			this.dataService.roomId = room.roomId;
+			await this.router.navigate(["/video"], { queryParams: { id: room.roomId } });
+			this.progress = 0;
+			this.submitting = false;
+		}
 	}
 
     public onFileChange(event, field: string) {
