@@ -131,7 +131,9 @@ export class VideoComponent implements OnInit, OnDestroy {
         try {
             this.torrent = await this.mediaSourceService.getTorrentByMedia(id);
         } catch (error) {
-            console.error(error);
+            if (error?.status !== 404) {
+                console.error(error);
+            }
         }
         return response;
     }

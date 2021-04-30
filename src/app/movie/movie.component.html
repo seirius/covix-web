@@ -3,9 +3,16 @@
     <div class="card-body">
         <h5 class="card-title">{{movie?.label}}</h5>
         <div class="text-center">
-            <button class="btn btn-primary" (click)="watch()">Watch</button>
-            <button class="btn btn-danger" (click)="askDelete()" *ngIf="!sure">Delete</button>
-            <button class="btn btn-danger" (click)="delete()" *ngIf="sure">Are you sure?</button>
+            <button class="btn btn-info" (click)="watch()">Watch</button>
+            <div ngbDropdown class="d-inline-block" [autoClose]="'outside'">
+                <button class="btn btn-outline-secondary" id="dropdownBasic1"
+                    ngbDropdownToggle>Actions</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button ngbDropdownItem (click)="edit()">Edit</button>
+                    <button class="red" ngbDropdownItem (click)="askDelete()" *ngIf="!sure">Delete</button>
+                    <button class="red" ngbDropdownItem (click)="delete()" *ngIf="sure">Are you sure?</button>
+                </div>
+            </div>
         </div>
     </div>
   </div>

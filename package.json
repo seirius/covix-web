@@ -1,6 +1,6 @@
 {
   "name": "covix-web",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -24,6 +24,7 @@
     "@angular/router": "~9.1.12",
     "@ng-bootstrap/ng-bootstrap": "^6.2.0",
     "bootstrap": "^4.4.0",
+    "bootstrap-icons": "^1.4.1",
     "bootswatch": "^4.6.0",
     "rxjs": "~6.5.4",
     "socket.io-client": "^2.3.0",

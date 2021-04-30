@@ -1,3 +1,87 @@
-<div class="container">
-    <app-movie *ngIf="movieResponse" [movie]="movieResponse"></app-movie>
+<div class="container pb-3" *ngIf="movieResponse">
+
+    <h3>{{movieResponse.label}}</h3>
+
+    <form [formGroup]="formGroup" novalidate>
+        <div class="form-group">
+            <label for="label">Label</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="label" placeholder="Label" formControlName="label" (change)="changeLabel()">
+                <div class="input-group-append">
+                    <span class="input-group-text" *ngIf="updLabel">
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        <span class="sr-only">Loading...</span>
+                    </span>
+                    <span class="input-group-text" *ngIf="!updLabel">
+                        <i class="green bi bi-check"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="label">Icon URL</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="label" placeholder="Icon URL" formControlName="iconUrl" (change)="changeIconUrl()">
+                <div class="input-group-append">
+                    <span class="input-group-text" *ngIf="updIconUrl">
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        <span class="sr-only">Loading...</span>
+                    </span>
+                    <span class="input-group-text" *ngIf="!updIconUrl">
+                        <i class="green bi bi-check"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="label">Icon File</label>
+            <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="file" (change)="onFileChange($event, ICON)" accept="image/jpeg, image/png">
+                    <label class="custom-file-label" for="file">Choose image...</label>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button" (click)="uploadIcon()" [disabled]="updIcon">Upload</button>
+                    <span class="input-group-text" *ngIf="updIcon">
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        <span class="sr-only">Loading...</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="label">Video file</label>
+            <p><ngb-progressbar type="dark" [value]="progress" *ngIf="updFile"></ngb-progressbar></p>
+            <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="file" (change)="onFileChange($event, FILE)" accept="video/mp4">
+                    <label class="custom-file-label" for="file">Choose video...</label>
+                    <div class="invalid-feedback">No video selected</div>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button" (click)="uploadFile()" [disabled]="updFile">Upload</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="label">Torrent Feed</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="label" placeholder="Link to torrent or magnet link" formControlName="torrent_feed">
+                <div class="invalid-feedback">
+                    Please provide a Torrent Feed.
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button" (click)="uploadFeed()" [disabled]="updFeed">Start download</button>
+                    <span class="input-group-text" *ngIf="updFeed">
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        <span class="sr-only">Loading...</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
