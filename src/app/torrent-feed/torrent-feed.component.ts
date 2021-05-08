@@ -5,10 +5,6 @@ import { MovieService } from '../api/movie.service';
 import { TorrentClientService } from '../api/torrent-client.service';
 import { TorrentFeedService, TfSource, MovieTfResponse, Feed, MovieTf } from '../api/torrent-feed.service';
 
-const INPUTS = {
-    SEARCH: "search"
-};
-
 const LIMIT = 10;
 const OFFSET = 3;
 
@@ -19,18 +15,15 @@ const OFFSET = 3;
 })
 export class TorrentFeedComponent implements OnInit {
 
-    public formGroup: FormGroup = this.formBuilder.group({
-        [INPUTS.SEARCH]: ["", Validators.required]
-    });
-
     public response: MovieTfResponse;
+
+    private search: string;
 
     public pages = 0;
     public currentPage = 1;
     public offset = OFFSET;
 
     constructor(
-        private readonly formBuilder: FormBuilder,
         private readonly torrentFeedService: TorrentFeedService,
         private readonly movieService: MovieService,
         private readonly torrentClientService: TorrentClientService,
@@ -42,7 +35,7 @@ export class TorrentFeedComponent implements OnInit {
 
     public async getMovies(): Promise<void> {
         this.response = await this.torrentFeedService.getMovies({
-            query: this.formGroup.get(INPUTS.SEARCH).value,
+            query: this.search,
             limit: LIMIT,
             page: this.currentPage,
             sources: [TfSource.YTS]
@@ -50,7 +43,8 @@ export class TorrentFeedComponent implements OnInit {
         this.pages = Math.ceil(this.response.totalCount / LIMIT);
     }
 
-    public async onSubmit(): Promise<void> {
+    public async onSearch(search: string): Promise<void> {
+        this.search = search;
         await this.getMovies();
     }
 

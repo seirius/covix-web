@@ -29,6 +29,17 @@ export interface MovieResponse {
     icon?: string;
 }
 
+export interface GetMovies {
+    query?: string;
+    currentPage?: string;
+    perPage?: string;
+}
+
+export interface MovieListResponse {
+    movies: MovieResponse[];
+    totalCount: number;
+}
+
 @Injectable()
 export class MovieService {
 
@@ -61,9 +72,9 @@ export class MovieService {
         }).toPromise();
     }
 
-    public getMovies(): Promise<MovieResponse[]> {
+    public getMovies(params: GetMovies = {}): Promise<MovieListResponse> {
         return this.httpClient
-        .get<MovieResponse[]>("/api/movie/list")
+        .get<MovieListResponse>("/api/movie/list", { params: params as any })
         .toPromise();
     }
 

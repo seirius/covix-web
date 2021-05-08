@@ -1,15 +1,6 @@
 <div class="torrent-feed h-100">
     <div class="container">
-        <div class="row">
-            <div class="d-xs-none col-sm-2 col-md-3"></div>
-            <form class="col-sm-8 col-md-6" [formGroup]="formGroup" novalidate (ngSubmit)="onSubmit()">
-                <div class="input-group">
-                    <input type="text" class="form-control" formControlName="search" placeholder="Search" aria-label="Search"
-                        aria-describedby="search">
-                    <button class="btn btn-outline-secondary" type="submit" id="search">Search</button>
-                </div>
-            </form>
-        </div>
+        <search-input (onSearch)="onSearch($event)"></search-input>
     </div>
     <div class="container-fluid h-100">
         <div class="no-results" [class.d-none]="pages">No results</div>

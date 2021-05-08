@@ -24,6 +24,7 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { TfItemComponent } from './torrent-feed/tf-item/tf-item.component';
 import { TorrentListComponent } from './torrent-list/torrent-list.component';
 import { TorrentProgressComponent } from './torrent-progress/torrent-progress.component';
+import { SearchInputComponent } from './search-input/search-input.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { TorrentProgressComponent } from './torrent-progress/torrent-progress.co
     PaginationComponent,
     TfItemComponent,
     TorrentListComponent,
-    TorrentProgressComponent
+    TorrentProgressComponent,
+    SearchInputComponent
   ],
   imports: [
     BrowserModule,
