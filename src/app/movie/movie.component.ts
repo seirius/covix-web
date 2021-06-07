@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { MediaService } from '../api/media.service';
 import { MovieResponse, MovieService } from '../api/movie.service';
 import { RoomService } from '../api/room.service';
 import { DataService } from '../data.service';
@@ -24,6 +25,7 @@ export class MovieComponent implements OnInit, AfterViewInit {
 
     constructor(
         private readonly router: Router,
+        private readonly mediaService: MediaService,
         private readonly roomService: RoomService,
         private readonly movieService: MovieService,
         private readonly dataService: DataService
@@ -68,6 +70,12 @@ export class MovieComponent implements OnInit, AfterViewInit {
                 id: this.movie.id
             }
         });
+    }
+
+    public download(): void {
+        if (this.movie.filename) {
+            this.mediaService.promptDownload(this.movie.filename);
+        }
     }
 
 }

@@ -27,4 +27,8 @@ export class MediaService {
         .toPromise();
     }
 
+    public promptDownload(filename: string): void {
+        window.open(`/api/media/${filename}/video`);
+    }
+
 }

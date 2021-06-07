@@ -9,6 +9,7 @@
                     ngbDropdownToggle>Actions</button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                     <button ngbDropdownItem (click)="edit()">Edit</button>
+                    <button ngbDropdownItem (click)="download()">Download</button>
                     <button class="red" ngbDropdownItem (click)="askDelete()" *ngIf="!sure">Delete</button>
                     <button class="red" ngbDropdownItem (click)="delete()" *ngIf="sure">Are you sure?</button>
                 </div>

@@ -6,6 +6,7 @@
                 <app-add-track [room]="room"></app-add-track>
             </div>
             <app-torrent-progress (onProgress)="onTorrentProgress($event)" [torrent]="torrent" *ngIf="torrent && torrent.state !== 'done'"></app-torrent-progress>
+            <button *ngIf="!torrent || torrent.state === 'done'" class="btn btn-outline-success btn-download" (click)="download()">Download</button>
         </div>
         <div class="col-12 col-sm-8 col-lg-9 col-xl-10">
             <app-video-js *ngIf="startVideo" [options]="videoOptions"

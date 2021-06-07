@@ -208,4 +208,10 @@ export class VideoComponent implements OnInit, OnDestroy {
         this.emitPause(currentTime);
     }
 
+    public download() {
+        if (this.media) {
+            this.mediaService.promptDownload(this.media.file.name);
+        }
+    }
+
 }
