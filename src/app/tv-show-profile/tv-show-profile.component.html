@@ -1,0 +1,133 @@
+<div class="container pb-3" *ngIf="tvShowResponse">
+
+    <div class="row">
+        <div class="col-12">
+            <h3>{{tvShowResponse.label}}</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]="formGroup" novalidate>
+                <div class="form-group">
+                    <label for="label">Label</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="label" placeholder="Label" formControlName="label"
+                            (change)="changeLabel()">
+                        <div class="input-group-append">
+                            <span class="input-group-text" *ngIf="updLabel">
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="sr-only">Loading...</span>
+                            </span>
+                            <span class="input-group-text" *ngIf="!updLabel">
+                                <i class="green bi bi-check"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="label">Icon URL</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="label" placeholder="Icon URL"
+                            formControlName="iconUrl" (change)="changeIconUrl()">
+                        <div class="input-group-append">
+                            <span class="input-group-text" *ngIf="updIconUrl">
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="sr-only">Loading...</span>
+                            </span>
+                            <span class="input-group-text" *ngIf="!updIconUrl">
+                                <i class="green bi bi-check"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="label">Icon File</label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="file" (change)="onFileChange($event, ICON)"
+                                accept="image/jpeg, image/png">
+                            <label class="custom-file-label" for="file">Choose image...</label>
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" (click)="uploadIcon()"
+                                [disabled]="updIcon">Upload</button>
+                            <span class="input-group-text" *ngIf="updIcon">
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="sr-only">Loading...</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h4>Seasons</h4>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="seasons">
+        <div class="col-12">
+            <ngb-accordion #acc="ngbAccordion">
+                <ngb-panel *ngFor="let season of seasons; let i = index" [id]="'acc' + i">
+                    <ng-template ngbPanelHeader>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h5 class="m-0">{{season.label}}</h5>
+                            <div class="p-0" *ngIf="!season.medias.length">
+                                <span>No episodes</span>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-success" *ngIf="season.index > 0" (click)="updateSeasonIndex(season, season.index - 1)"><i class="bi bi-arrow-up"></i></button>
+                                <button type="button" class="btn btn-warning" *ngIf="season.index < seasons.length - 1" (click)="updateSeasonIndex(season, season.index + 1)"><i class="bi bi-arrow-down"></i></button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button ngbPanelToggle class="btn btn-primary" *ngIf="season.medias.length">Episodes
+                                    ({{season.medias.length}})</button>
+                                <button type="button" class="btn btn-danger" (click)="deleteSeason(season)"><i class="bi bi-trash"></i></button>
+                            </div>
+                            <div>
+                                <input type="file" class="custom-file-input d-none" #file (change)="onFileChangeElement($event, file, season)"
+                                accept="video/mp4, video/webm, .mkv">
+                                <p><ngb-progressbar type="dark" [value]="season.progress" *ngIf="season.progress"></ngb-progressbar></p>
+                                <button class="btn btn-outline-success" type="button" (click)="file.click()">New episode</button>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let media of season.medias; let j = index">
+                                <div class="d-flex justify-content-between">
+                                    <span>{{j + 1}} - {{media.file?.originalName}}</span>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-success" *ngIf="j > 0" (click)="updateEpisode(season, media, j - 1)"><i class="bi bi-arrow-up"></i></button>
+                                        <button type="button" class="btn btn-warning" *ngIf="j < season.medias.length - 1" (click)="updateEpisode(season, media, j + 1)"><i class="bi bi-arrow-down"></i></button>
+                                    </div>
+                                    <button class="btn btn-danger" (click)="removeEpisode(season, media, acc, i)">Delete</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </ng-template>
+                </ngb-panel>
+                <ngb-panel>
+                    <ng-template ngbPanelHeader>
+                        <form novalidate (ngSubmit)="newSeason()">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="New season name"
+                                [(ngModel)]="newSeasonName" name="newSeason" autocomplete="off">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="submit">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+        </div>
+    </div>
+
+</div>

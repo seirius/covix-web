@@ -54,10 +54,17 @@ export class UserSelectionComponent implements OnInit {
     }
 
     public async selectUser(user: UserResponse): Promise<void> {
-        this.dataService.username = user.username;
+        if (this.dataService.user) {
+            this.dataService.user = {
+                ...user,
+                ...this.dataService.user,
+            };
+        } else {
+            this.dataService.user = user;
+        }
         await this.userService.updateClientId({
             username: user.username,
-            clientId: this.dataService.clientId
+            clientId: this.dataService.user.clientId
         });
         if (this.dataService.backtrace) {
             await this.router.navigate([this.dataService.backtrace.url], {

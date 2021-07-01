@@ -26,7 +26,7 @@ export class LiveRoomsComponent implements OnInit {
     }
 
     public joinRoom(room: RoomWithMediaResponse): void {
-        this.router.navigate(["/video"], { queryParams: { id: room.roomId } });
+        this.router.navigate(["/movies-room"], { queryParams: { id: room.roomId } });
     }
 
 }

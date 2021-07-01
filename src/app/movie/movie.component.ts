@@ -50,9 +50,9 @@ export class MovieComponent implements OnInit, AfterViewInit {
     }
 
     public async watch(): Promise<void> {
-        const room = await this.roomService.newRoom(this.movie.mediaId, this.dataService.username);
+        const room = await this.roomService.newRoom(this.movie.mediaId, this.dataService.user.username);
         this.dataService.roomId = room.roomId;
-        await this.router.navigate(["/video"], { queryParams: { id: room.roomId } });
+        await this.router.navigate(["/movies-room"], { queryParams: { id: room.roomId } });
     }
 
     public askDelete(): void {

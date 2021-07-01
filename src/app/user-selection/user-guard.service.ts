@@ -14,7 +14,7 @@ export class UserGuard {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): boolean {
-        if (this.dataService.username) {
+        if (this.dataService.user?.username) {
             return true;
         }
         this.dataService.backtrace = {

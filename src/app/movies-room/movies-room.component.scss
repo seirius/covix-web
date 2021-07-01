@@ -1,0 +1,12 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    .title {
+        flex: 1;
+    }
+    .video {
+        height: 100%;
+    }
+}

@@ -1,0 +1,17 @@
+<div class="card mb-3">
+    <img [src]="icon" class="card-img-top icon-image">
+    <div class="card-body">
+        <h5 class="card-title">{{tvShow?.label}}</h5>
+        <div class="text-center">
+            <button class="btn btn-info" (click)="watch()">Watch</button>
+            <div ngbDropdown class="d-inline-block" [autoClose]="'outside'">
+                <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle>Actions</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button ngbDropdownItem (click)="edit()">Edit</button>
+                    <button class="red" ngbDropdownItem (click)="askDelete()" *ngIf="!sure">Delete</button>
+                    <button class="red" ngbDropdownItem (click)="delete()" *ngIf="sure">Are you sure?</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

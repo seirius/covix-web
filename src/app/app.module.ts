@@ -25,6 +25,13 @@ import { TfItemComponent } from './torrent-feed/tf-item/tf-item.component';
 import { TorrentListComponent } from './torrent-list/torrent-list.component';
 import { TorrentProgressComponent } from './torrent-progress/torrent-progress.component';
 import { SearchInputComponent } from './search-input/search-input.component';
+import { TvShowListComponent } from './tv-show-list/tv-show-list.component';
+import { TvShowComponent } from './tv-show/tv-show.component';
+import { TvShowProfileComponent } from './tv-show-profile/tv-show-profile.component';
+import { AddTvShowComponent } from './add-tv-show/add-tv-show.component';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MoviesRoomComponent } from './movies-room/movies-room.component';
+import { TvShowsRoomComponent } from './tv-shows-room/tv-shows-room.component';
 
 
 @NgModule({
@@ -45,10 +52,17 @@ import { SearchInputComponent } from './search-input/search-input.component';
     TfItemComponent,
     TorrentListComponent,
     TorrentProgressComponent,
-    SearchInputComponent
+    SearchInputComponent,
+    TvShowListComponent,
+    TvShowComponent,
+    TvShowProfileComponent,
+    AddTvShowComponent,
+    MoviesRoomComponent,
+    TvShowsRoomComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule,
     FormsModule,

@@ -72,6 +72,13 @@ export class MovieService {
         }).toPromise();
     }
 
+    public getMovieByMedia(mediaId: string): Promise<MovieResponse> {
+        return this.httpClient
+        .get<MovieResponse>(`/api/movie`, {
+            params: { mediaId }
+        }).toPromise();
+    }
+
     public getMovies(params: GetMovies = {}): Promise<MovieListResponse> {
         return this.httpClient
         .get<MovieListResponse>("/api/movie/list", { params: params as any })

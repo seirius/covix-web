@@ -1,0 +1,34 @@
+<div class="container">
+
+    <h3>New tv show</h3>
+
+    <form [formGroup]="formGroup" novalidate (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+            <label for="label">Label</label>
+            <input type="text" class="form-control" id="label" placeholder="Label" formControlName="label" [disabled]="submitting">
+            <div class="invalid-feedback">
+                Please provide a label.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="label">Icon URL</label>
+            <input type="text" class="form-control" id="label" placeholder="Icon URL" formControlName="iconUrl" [disabled]="submitting">
+            <div class="invalid-feedback">
+                Please provide an Icon URL.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="label">Icon File</label>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="file" (change)="onFileChange($event, 'icon')" [disabled]="submitting" accept="image/jpeg, image/png">
+                <label class="custom-file-label" for="file">Choose image...</label>
+                <div class="invalid-feedback">No image selected</div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid || formGroup.pristine" [disabled]="formGroup.invalid || submitting">Add tv show</button>
+    </form>
+</div>

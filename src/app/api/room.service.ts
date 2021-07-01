@@ -1,9 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { MediaResponse } from "./media.service";
+import { MovieResponse } from "./movie.service";
+import { SeasonResponse, TvShowResponse } from "./tv-show.service";
 
 export interface RoomResponse {
     roomId: string;
     usernames: string[];
+    owner: string;
+    lastTimeWatched: Date;
 }
 
 export interface RoomDto {
@@ -17,6 +22,13 @@ export interface RoomWithMediaResponse {
     roomId: string;
     mediaLabel: string;
     usernames: string[];
+}
+
+export interface TvShowForRoom {
+    tvShow: TvShowResponse;
+    season: SeasonResponse;
+    media: MediaResponse;
+    room: RoomResponse;
 }
 
 @Injectable()
@@ -49,6 +61,18 @@ export class RoomService {
     public getLiveRooms(): Promise<RoomWithMediaResponse[]> {
         return this.httpClient
         .get<RoomWithMediaResponse[]>("/api/room/live")
+        .toPromise();
+    }
+
+    public getMovieInRoom(id: string): Promise<MovieResponse> {
+        return this.httpClient
+        .get<MovieResponse>("/api/room/movie", { params: { id } })
+        .toPromise();
+    }
+
+    public getTvShowInRoom(id: string): Promise<TvShowForRoom> {
+        return this.httpClient
+        .get<TvShowForRoom>("/api/room/tv-show", { params: { id }})
         .toPromise();
     }
 

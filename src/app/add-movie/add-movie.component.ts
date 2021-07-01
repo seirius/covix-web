@@ -75,9 +75,9 @@ export class AddMovieComponent implements OnInit {
 				const { name } = await this.fileService.uploadFile(formData, progress => this.progress = progress);
 				movieResponse = await this.movieService.addMovie({ name, label, iconUrl, icon });
 			}
-			const room = await this.roomService.newRoom(movieResponse.mediaId, this.dataService.username);
+			const room = await this.roomService.newRoom(movieResponse.mediaId, this.dataService.user.username);
 			this.dataService.roomId = room.roomId;
-			await this.router.navigate(["/video"], { queryParams: { id: room.roomId } });
+			await this.router.navigate(["/movies-room"], { queryParams: { id: room.roomId } });
 			this.progress = 0;
 			this.submitting = false;
 		}

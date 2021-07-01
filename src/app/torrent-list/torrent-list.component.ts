@@ -104,9 +104,9 @@ export class TorrentListComponent implements OnInit, OnDestroy {
 
     public async watch(torrent: TorrentResponse): Promise<void> {
         const media = await this.mediaSourceService.getMediaByTorrent(torrent.id);
-        const room = await this.roomService.newRoom(media.id, this.dataService.username);
+        const room = await this.roomService.newRoom(media.id, this.dataService.user.username);
         this.dataService.roomId = room.roomId;
-        await this.router.navigate(["/video"], { queryParams: { id: room.roomId } });
+        await this.router.navigate(["/movies-room"], { queryParams: { id: room.roomId } });
     }
 
     public allChecked(): void {

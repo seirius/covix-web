@@ -1,0 +1,36 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    .title {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        .episode-name {
+            max-width: 200px;
+            overflow: hidden;
+        }
+    }
+    .video {
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        .right-side {
+            width: 320px;
+            height: 100%;
+            position: absolute;
+            background-color: white;
+            right: 0;
+            z-index: 3;
+            .episode-list {
+                max-height: 200px;
+                overflow: auto;
+            }
+        }
+    }
+}
+
+.max-width {
+    width: 100%;
+}

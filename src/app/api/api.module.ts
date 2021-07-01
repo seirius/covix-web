@@ -6,6 +6,7 @@ import { MovieService } from "./movie.service";
 import { RoomService } from "./room.service";
 import { TorrentClientService } from "./torrent-client.service";
 import { TorrentFeedService } from "./torrent-feed.service";
+import { TvShowService } from "./tv-show.service";
 import { UserService } from "./user.service";
 
 @NgModule({
@@ -17,7 +18,8 @@ import { UserService } from "./user.service";
         UserService,
         TorrentFeedService,
         TorrentClientService,
-        MediaSourceService
+        MediaSourceService,
+        TvShowService
     ]
 })
 export class ApiModule {}

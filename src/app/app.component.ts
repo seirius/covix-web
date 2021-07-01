@@ -13,7 +13,9 @@ export class AppComponent implements OnInit {
 
     public links = [
         { title: "Movies", fragment: "movies" },
-        { title: "Add Movie", fragment: "add-movie" },
+        { title: "Tv shows", fragment: "tv-shows" },
+        { title: "Add movie", fragment: "add-movie" },
+        { title: "Add tv show", fragment: "add-tv-show" },
         { title: "Live rooms", fragment: "live-rooms" },
         { title: "Torrent feeds", fragment: "torrent-feed" },
         { title: "Torrent list", fragment: "torrent-list" },
@@ -32,7 +34,12 @@ export class AppComponent implements OnInit {
     async ngOnInit(): Promise<void> {
         await this.socketService.init();
         this.socketService.socket.on("connect", () => this.connected = true);
-        this.socketService.socket.on(EVENTS.CLIENT_ID, (clientId: string) => this.dataService.clientId = clientId);
+        this.socketService.socket.on(EVENTS.CLIENT_ID, (clientId: string) => {
+            if (!this.dataService.user) {
+                this.dataService.user = {} as any;
+            }
+            this.dataService.user.clientId = clientId;
+        });
     }
 
     public covixClick(): void {
@@ -40,7 +47,7 @@ export class AppComponent implements OnInit {
     }
 
     public get username(): string {
-        return this.dataService.username;
+        return this.dataService.user?.username;
     }
 
 }

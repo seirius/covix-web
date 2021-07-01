@@ -1,0 +1,37 @@
+<div class="content">
+    <div class="title" [title]="mediaFilename">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-warning" (click)="edit()">Edit</button>
+            <button type="button" class="btn btn-primary" (click)="videoOptionsToggle()">Options</button>
+        </div>
+        <h3>{{tvShow?.label}}: S{{season?.index + 1}}E{{episode + 1}}</h3>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-secondary" *ngIf="hasPrevious" (click)="previous()">Previous</button>
+            <button type="button" class="btn btn-secondary" (click)="toggleEpisodes()">Episodes <i class="bi bi-list-ol"></i></button>
+            <button type="button" class="btn btn-secondary" *ngIf="hasNext" (click)="next()">Next</button>
+        </div>
+    </div>
+    <div class="video">
+        <div class="right-side" [@episodesState]="episodesState" *ngIf="tvShow">
+            <button class="btn btn-danger max-width" (click)="toggleEpisodes()">Close</button>
+            <ngb-accordion #acc="ngbAccordion">
+                <ngb-panel *ngFor="let season of tvShow.seasons; let i = index" [id]="'acc' + i">
+                    <ng-template ngbPanelHeader>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <button ngbPanelToggle class="btn btn-link"><h5>S{{season.index + 1}} - {{season.label}}</h5></button>
+                        </div>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                        <ul class="list-group episode-list">
+                            <li class="list-group-item" *ngFor="let episode of season.medias; let j = index">
+                                <button class="btn btn-link" *ngIf="media.id !== episode.id" (click)="goTo(episode.id)">S{{season.index + 1}}E{{j + 1}}</button>
+                                <span *ngIf="media.id === episode.id">S{{season.index + 1}}E{{j + 1}} (now watching)</span>
+                            </li>
+                        </ul>
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+        </div>
+        <app-video [addLeftSideButton]="false" [leftSideState]="videoOptionsState" (leftSideStateChange)="onVideoOptionsChanges($event)"></app-video>
+    </div>
+</div>

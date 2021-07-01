@@ -1,8 +1,35 @@
-.tracks {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.btn-download {
+.btn-width {
     width: 100%;
+}
+.video {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    .media-canvas {
+        position: relative;
+        height: 100%;
+        .media {
+            height: 100%;
+            position: relative;
+            z-index: 0;
+        }
+        .left-side {
+            position: absolute;
+            overflow: hidden;
+            width: 320px;
+            padding: 2px;
+            left: 0;
+            z-index: 1;
+            background-color: white;
+        }
+        .right-side {
+            position: absolute;
+            display: none;
+            width: 320px;
+            right: 0;
+            z-index: 2;
+            background-color: white;
+        }
+    }
 }
